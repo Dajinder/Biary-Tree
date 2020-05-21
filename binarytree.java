@@ -194,12 +194,85 @@ public class binarytree{
 
     }
 
+
+    static Node LCANode = null;
+    public static boolean LCAopt(Node root, int p, int q){
+        
+        if(root==null) return false;
+
+        boolean selfdone = false;
+        if(root.data == p || root.data == q){
+            selfdone = true;
+        }
+
+        boolean leftdone = LCAopt(root.left, p, q);
+        if(LCANode!=null) return true;
+        
+        boolean rightdone = LCAopt(root.right, p, q);
+        if(LCANode!=null) return true;
+
+
+        if((selfdone && leftdone == true) || (selfdone && rightdone == true) || (leftdone && rightdone == true)){
+            LCANode = root;
+        }
+
+        return selfdone || leftdone || rightdone; 
+    }
+
+    public static void kDown(Node root,  int k, Node blockNode){
+
+        if(root==null) return;
+
+        if(k==0){
+            System.out.println(root.data + " ");
+            return ;
+        }
+
+        kDown(root.left,k-1,blockNode);
+        kDown(root.right,k-1,blockNode);
+    }
+
+    public static void allNodeKAway(Node root, int target, int K) {
+        ArrayList<Node> path=new ArrayList<>();
+        rootTonodePath(root,target,path);
+
+        Node blockNode=null;
+        for(int i=0;i<path.size();i++){
+            if(K-i<0) break;
+            kDown(path.get(i),K-i,blockNode);
+            blockNode=path.get(i);
+        }
+    }
+
+    public static int diameter(Node node){
+        if(node==null) return 0;
+
+        int leftdiameter = diameter(node.left);
+        int rightdiameter = diameter(node.right);
+
+        int leftheight = height(node.left);
+        int rightheight = height(node.right);
+
+        int mydiameter = leftheight + rightheight + 2;
+
+        return Math.max(Math.max(leftdiameter,rightdiameter),mydiameter);
+    }
+
+
+
     public static void solve(){
         int[] arr={10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,100,-1,-1,-1,70,110,-1,-1,120,-1,-1};
         Node root = constructTree(arr);
         // display(root);
         // rootToNodePath_(root, 80);
-        LCA(root);
+        // LCA(root);
+
+            // LCAopt(root, 80, 50);
+            // System.out.println("LCA: " + (LCANode!=null ? LCANode.data : "-1")); 
+        
+        // kDown(root, 2, null); 
+        // allNodeKAway(root, 20, 1); 
+        // System.out.println(diameter(root)); 
     }
     
 }
