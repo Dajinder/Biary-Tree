@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class binarytree{
     public static void main(String[] args){
@@ -258,6 +259,147 @@ public class binarytree{
         return Math.max(Math.max(leftdiameter,rightdiameter),mydiameter);
     }
 
+    //LevelOrder_series.=========================================================
+
+   public static void levelOrder_00(Node node){
+    LinkedList<Node> pQue=new LinkedList<>(); // addLast and removeFirst.
+    pQue.addLast(node);
+
+    while(pQue.size()!=0){
+        Node rnode=pQue.removeFirst();
+        System.out.print(rnode.data+ " ");
+        if(rnode.left!=null) pQue.addLast(rnode.left);
+        if(rnode.right!=null) pQue.addLast(rnode.right);
+   }
+}
+
+public static void levelOrder_01(Node node){
+ LinkedList<Node> pQue=new LinkedList<>(); // addLast and removeFirst.
+ LinkedList<Node> cQue=new LinkedList<>(); // addLast and removeFirst.
+
+ pQue.addLast(node);
+ int count=0;
+ System.out.print("Level: " + count + " -> ");
+ 
+ while(pQue.size()!=0){
+     Node rnode=pQue.removeFirst();
+     System.out.print(rnode.data+ " ");
+     if(rnode.left!=null) cQue.addLast(rnode.left);
+     if(rnode.right!=null) cQue.addLast(rnode.right);
+
+     if(pQue.size()==0){
+       LinkedList<Node> temp=pQue;
+       pQue=cQue;
+       cQue=temp;
+       count++;      
+      System.out.print("\nLevel: " + count + " -> ");
+     }
+ }
+}
+
+public static void levelOrder_02(Node node){
+ LinkedList<Node> Que=new LinkedList<>(); // addLast and removeFirst.
+
+ Que.addLast(node);
+ Que.addLast(null);
+ int count=0;
+ System.out.print("Level: " + count + " -> ");
+ 
+ while(Que.size()!=1){
+     Node rnode=Que.removeFirst();
+     System.out.print(rnode.data+ " ");
+     if(rnode.left!=null) Que.addLast(rnode.left);
+     if(rnode.right!=null) Que.addLast(rnode.right);
+
+     if(Que.getFirst()==null){
+         Que.removeFirst();
+         Que.addLast(null);
+         count++;      
+         System.out.print("\nLevel: " + count + " -> ");
+     }
+ }
+}
+
+
+    public static void levelOrder_03(Node node){
+        LinkedList<Node> que = new LinkedList<>();
+        que.addFirst(node);
+
+        int count = 0;
+        while(que.size()!=0){
+            System.out.print("Level: "+ count + " -> ");
+            count++;
+            int size = que.size();
+
+            while(size > 0){
+                Node rnode = que.removeFirst();
+                System.out.print(rnode.data + " ");
+                if(rnode.left!=null) que.addLast(rnode.left);
+                if(rnode.right!=null) que.addLast(rnode.right);
+                size--;
+            }
+            System.out.println();
+        }
+        // System.out.println(count);
+    }
+
+    public static void levelOrder_(Node root){
+        // levelOrder_00(root);
+        // levelOrder_01(root);
+        // levelOrder_02(root);
+        // levelOrder_03(root);
+    }
+
+
+    // viewset =================================================================
+    
+    
+    public static void leftview(Node node){
+        LinkedList<Node> que = new LinkedList<>();
+        que.addFirst(node);
+
+        while(que.size()!=0){
+            
+            int size = que.size();
+            System.out.print(que.getFirst().data);
+
+            while(size > 0){
+                Node rnode = que.removeFirst();
+                if(rnode.left!=null) que.addLast(rnode.left);
+                if(rnode.right!=null) que.addLast(rnode.right);
+                size--;
+            }
+            System.out.println();
+        }
+        
+    }
+
+    public static void rightview(Node node){
+        LinkedList<Node> que=new LinkedList<>(); // addLast and removeFirst.
+    que.addLast(node);
+    while(que.size()!=0){
+        int size=que.size();
+        Node prev=null;
+        while(size--> 0){
+            Node rnode=que.removeFirst();
+            if(rnode.left!=null) que.addLast(rnode.left);
+            if(rnode.right!=null) que.addLast(rnode.right);    
+            prev=rnode;
+        }
+        System.out.print(prev.data + " ");
+    }
+    System.out.println();
+    }
+
+    
+
+    public static void viewset(Node root){
+        // leftview(root);
+        // rightview(root);
+
+    }
+    
+
 
 
     public static void solve(){
@@ -272,7 +414,10 @@ public class binarytree{
         
         // kDown(root, 2, null); 
         // allNodeKAway(root, 20, 1); 
-        // System.out.println(diameter(root)); 
+        // System.out.println(diameter(root));
+        
+        // levelOrder_(root);
+        // viewset(root);
     }
     
 }
