@@ -259,6 +259,43 @@ public class binarytree{
         return Math.max(Math.max(leftdiameter,rightdiameter),mydiameter);
     }
 
+    public static boolean pathsum(Node node,int sum){
+        if(node==null) return false;
+        if(node.data==sum && node.left==null && node.right == null) return true;
+        return pathsum(node.left,sum-node.data) || pathsum(node.right,sum-node.data);
+    }
+
+    public static ArrayList<ArrayList<Integer>> pathSum_II_01(Node node, int sum) {
+                if (node == null)
+                    return null;
+                if (node.left == null && node.right == null && sum - node.data == 0) {
+                    ArrayList<ArrayList<Integer>> base = new ArrayList<>();
+                    ArrayList<Integer> small = new ArrayList<>();
+                    small.add(node.data);
+                    base.add(small);
+                    return base;
+                }
+        
+                ArrayList<ArrayList<Integer>> myans = new ArrayList<>();
+                ArrayList<ArrayList<Integer>> left = pathSum_II_01(node.left, sum - node.data);
+                if (left != null) {
+                    for (ArrayList<Integer> small : left) {
+                        small.add(0, node.data);
+                        myans.add(small);
+                    }
+                }
+        
+                ArrayList<ArrayList<Integer>> right = pathSum_II_01(node.right, sum - node.data);
+                if (right != null) {
+                    for (ArrayList<Integer> small : right) {
+                        small.add(0, node.data);
+                        myans.add(small);
+                    }
+                }
+        
+                return myans;
+            }
+
     //LevelOrder_series.=========================================================
 
    public static void levelOrder_00(Node node){
@@ -418,6 +455,8 @@ public static void levelOrder_02(Node node){
         
         // levelOrder_(root);
         // viewset(root);
+        System.out.println(pathsum(root,170));
+        System.out.println(pathSum_II_01(root, 170));
     }
     
 }
