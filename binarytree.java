@@ -633,10 +633,6 @@ public static void diagonalSum(Node node){
             return LeftTail;
         }
     }
-    
-    
-
-
 
 
     public static void solve(){
